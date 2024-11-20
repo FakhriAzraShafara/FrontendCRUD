@@ -9,6 +9,14 @@ function setupEventListeners() {
     $('#cancelBtn').click(hideFormAndReset);
     $('#searchBtn').click(performSearch);
     $('#addEditForm').submit(handleFormSubmit);
+
+    $('#manufacturingYear').on('input', function() {
+        const tahun = parseInt($(this).val());
+        if (tahun > 9999) {
+            showToast('warning', 'Tahun pembuatan maksimal 4 angka');
+            $(this).val(9999);
+        }
+    });
 }
 
 // Data Loading Functions
@@ -60,13 +68,20 @@ async function performSearch() {
 // Form Handling Functions
 async function handleFormSubmit(e) {
     e.preventDefault();
-    const nomorRegistrasi = $('#registrationNumber').val();
+    const tahunPembuatan = parseInt($('#manufacturingYear').val());
+
+    // Validasi tahun pembuatan
+    if (tahunPembuatan < 1000 || tahunPembuatan > 9999) {
+        showToast('error', 'Tahun pembuatan maksimal 4 angka');
+        return;
+    }
+
     const vehicleData = {
-        nomorRegistrasi: nomorRegistrasi,
+        nomorRegistrasi: $('#registrationNumber').val(),
         namaPemilik: $('#ownerName').val(),
         alamat: $('#ownerAddress').val(),
         merkKendaraan: $('#vehicleBrand').val(),
-        tahunPembuatan: parseInt($('#manufacturingYear').val()),
+        tahunPembuatan: tahunPembuatan,
         kapasitasSilinder: parseInt($('#cylinderCapacity').val()),
         warnaKendaraan: $('#vehicleColor').val(),
         bahanBakar: $('#fuelType').val()
