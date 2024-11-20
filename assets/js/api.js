@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://CRUDNet.somee.com/api';
+const API_BASE_URL = 'https://CRUDNet.somee.com/api';
 
 const api = {
     async getAllVehicles() {
