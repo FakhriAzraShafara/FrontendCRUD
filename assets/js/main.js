@@ -88,9 +88,14 @@ async function handleFormSubmit(e) {
     };
 
     try {
-        if ($('#vehicleId').val()) {
-            await updateVehicle(nomorRegistrasi, vehicleData);
+        // Get the current nomorRegistrasi from the hidden input for edit mode
+        const currentNomorRegistrasi = $('#vehicleId').val();
+        
+        if (currentNomorRegistrasi) {
+            // Update existing vehicle
+            await updateVehicle(currentNomorRegistrasi, vehicleData);
         } else {
+            // Create new vehicle
             await createVehicle(vehicleData);
         }
         hideFormAndReset();
